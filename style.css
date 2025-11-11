@@ -12,7 +12,7 @@ body {
     margin: 0;
     
     /* Configuración del Fondo de Pantalla */
-    background-image: url('Figuritas-JuAn.jpg'); /* !!! REEMPLAZA CON EL NOMBRE DE TU ARCHIVO !!! */
+    background-image: url('Figuritas-JuAn'); /* !!! REEMPLAZA CON EL NOMBRE DE TU ARCHIVO !!! */
     background-size: cover; /* Ajusta la imagen para cubrir todo el área, manteniendo la proporción */
     background-position: center center; /* Centra la imagen */
     background-attachment: fixed; /* Mantiene la imagen fija al hacer scroll (opcional, pero agradable) */
@@ -151,4 +151,5 @@ button:disabled {
     .container {
         max-width: 500px;
     }
+
 }
