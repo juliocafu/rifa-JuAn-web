@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Rifa Virtual - Registro de Boletos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>¡Reserva tu Boleto!</h1>
+        <p>Selecciona tu número y registra tu nombre. Solo hay 100 disponibles.</p>
+
+		<form id="raffleForm">
+			<div class="form-group">
+				<label for="name">Nombre Completo:</label>
+				<input type="text" id="name" name="nombre" required>
+			</div>
+
+			<div class="form-group">
+				<label for="ticket">Selecciona tu Número de Boleto Disponible:</label>
+				<select id="ticket" name="boleto" required>
+					<option value="" disabled selected>Cargando disponibilidad...</option>
+				</select>
+			</div>
+			<button type="submit" id="submitBtn" disabled>Cargando...</button>
+		</form>
+
+        <div id="message" class="hidden"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
