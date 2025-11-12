@@ -7,53 +7,82 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyi_RuBmBqLR8CT
 // Declaramos las variables/constantes PERO NO las asignamos aún.
 let form, ticketSelect, submitBtn, messageDiv;
 
+// =========================================================================
+// 1. FUNCIÓN DE CARGA (JSONP - GET)
+// =========================================================================
 
 /**
- * 1. FUNCIÓN DE CARGA: Obtiene los boletos disponibles del Apps Script (GET).
- * Esta función NO necesita cambios internos.
- */
-// script.js (al inicio, antes de loadAvailableTickets)
-
-/**
- * Función global que recibe el JSONP de Google Apps Script.
+ * Función global que recibe la respuesta JSONP del Apps Script.
+ * Esta función es llamada por el script cargado desde Google.
  */
 function handleRaffleData(data) {
-    // Si la función se ejecuta, significa que la comunicación funcionó.
-    // Llama a la lógica principal de tu app.
     processRaffleData(data);
 }
 
-// script.js (justo después de handleRaffleData)
+/**
+ * Procesa los datos de disponibilidad recibidos y actualiza la interfaz.
+ */
 function processRaffleData(data) {
-    // ESTO ES CASI TODO EL CÓDIGO QUE ANTES ESTABA EN EL .then(data => {...}) DE loadAvailableTickets
+    ticketSelect.innerHTML = ''; // Limpia el select antes de rellenar
+    
     if (data.success && data.result && data.result.available.length > 0) {
-        // ... (Tu lógica de éxito) ...
-        // 3. Éxito: Limpiar y rellenar el menú desplegable
-        // ... (Tu código para llenar el select) ...
+        // Éxito: Limpiar y rellenar el menú desplegable
+        ticketSelect.innerHTML = '<option value="" disabled selected>-- Elige un número --</option>';
+        data.result.available.forEach(ticketNum => {
+            const option = document.createElement('option');
+            option.value = ticketNum;
+            option.textContent = `Boleto N° ${ticketNum}`;
+            ticketSelect.appendChild(option);
+        });
+        
         submitBtn.disabled = false;
         submitBtn.textContent = 'Reservar y Pagar';
         showMessage(messageDiv, 'success', `¡${data.result.available.length} boletos disponibles!`);
+    
+    } else if (data.success && data.result.available.length === 0) {
+        // No hay boletos disponibles
+        ticketSelect.innerHTML = '<option value="" disabled selected>¡Todos los boletos vendidos! 🎉</option>';
+        showMessage(messageDiv, 'error', '¡Lo sentimos! Todos los boletos han sido vendidos.');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Agotado';
+
     } else {
-        // ... (Tu lógica de error/agotado) ...
-        showMessage(messageDiv, 'error', `Error al cargar: ${data.message || 'Agotado'}`);
+        // Error reportado por el Apps Script
+        ticketSelect.innerHTML = '<option value="" disabled selected>Error de carga</option>';
+        showMessage(messageDiv, 'error', `Error al cargar: ${data.message}`);
         submitBtn.textContent = 'Error de Carga';
     }
 }
 
-
-// script.js
+/**
+ * Carga los boletos disponibles inyectando un tag <script> (JSONP).
+ */
 function loadAvailableTickets() {
-    // 1. Resetear interfaz y mostrar estado de carga
-    // ... (Tu código de reset de interfaz) ...
+    ticketSelect.innerHTML = '<option value="" disabled selected>Cargando disponibilidad...</option>';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Cargando...';
 
     const url = APPS_SCRIPT_URL + '?callback=handleRaffleData';
     
-    // **ESTE ES EL NUEVO CÓDIGO DE CARGA**
+    // **Carga la URL como un script para evadir el bloqueo CORS**
     const script = document.createElement('script');
     script.src = url;
     document.head.appendChild(script);
+
+    // Limpieza: Remueve el script después de un tiempo (Opcional, para evitar duplicados)
+    script.onload = () => script.remove();
+    script.onerror = () => {
+        // Manejo de error de red si el script no se puede cargar
+        showMessage(messageDiv, 'error', 'Error de red. No se pudo conectar con la base de datos.');
+        submitBtn.textContent = 'Error de Carga';
+        script.remove();
+    };
 }
 
+
+// =========================================================================
+// 2. FUNCIÓN DE REGISTRO (POST) - USANDO FETCH
+// =========================================================================
 
 /**
  * 3. INICIALIZACIÓN PRINCIPAL: Se ejecuta cuando la página está lista.
@@ -67,18 +96,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. AGREGAMOS EL LISTENER DE ENVÍO
     form.addEventListener('submit', function(event) {
-        // ... (Tu código de registro (POST) es correcto)
-        // Usamos las variables que acabamos de asignar (form, submitBtn, etc.)
-        // ...
         event.preventDefault(); 
+
         submitBtn.disabled = true;
         submitBtn.textContent = 'Procesando registro...';
         messageDiv.classList.add('hidden'); 
 
-        // ... (resto del código POST)
         const formData = new FormData(form);
         const params = new URLSearchParams(formData);
 
+        // **USAMOS FETCH para el POST, ya que no suele fallar con CORS aquí**
         fetch(APPS_SCRIPT_URL, {
             method: 'POST',
             body: params
@@ -88,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 showMessage(messageDiv, 'success', `¡Éxito! ${data.message}`);
                 form.reset(); 
-                loadAvailableTickets(); // Vuelve a cargar
+                loadAvailableTickets(); // Vuelve a cargar la lista
             } else {
                 showMessage(messageDiv, 'error', `Error: ${data.message}. Vuelve a intentar.`);
             }
@@ -108,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 4. Mantenemos la función auxiliar showMessage
 /**
- * Función auxiliar para mostrar mensajes (Mantener del script anterior)
+ * Función auxiliar para mostrar mensajes
  */
 function showMessage(element, type, text) {
     element.textContent = text;
@@ -116,11 +143,3 @@ function showMessage(element, type, text) {
     element.classList.add('message', type);
     element.classList.remove('hidden');
 }
-
-// Nota: La línea document.addEventListener('DOMContentLoaded', loadAvailableTickets); ya no es necesaria al final
-// porque el código inicializador ahora está en el bloque de inicialización grande.
-
-
-
-
-
