@@ -8,16 +8,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Asegura que ocupe toda la altura de la vista */
+    min-height: 100vh;
     margin: 0;
     
     /* Configuración del Fondo de Pantalla */
-    background-image: url('Figuritas-JuAn'); /* !!! REEMPLAZA CON EL NOMBRE DE TU ARCHIVO !!! */
-    background-size: cover; /* Ajusta la imagen para cubrir todo el área, manteniendo la proporción */
-    background-position: center center; /* Centra la imagen */
-    background-attachment: fixed; /* Mantiene la imagen fija al hacer scroll (opcional, pero agradable) */
-    background-color: #f4f4f9; /* Color de fallback si la imagen no carga */
-    padding: 20px; /* Padding para que el contenido no toque los bordes en móviles */
+    background-image: url('Figuritas-JuAn');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed; 
+    background-color: #f4f4f9;
+    padding: 20px;
 }
 
 /* * ----------------------------------------------------
@@ -25,14 +25,13 @@ body {
  * ----------------------------------------------------
  */
 .container {
-    /* Usaremos un fondo semitransparente blanco para que el formulario se lea bien sobre el fondo de Ju-An */
-    background-color: rgba(255, 255, 255, 0.95); 
+    background-color: rgba(255, 255, 255, 0.95); 
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada para resaltar */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
     width: 100%;
-    max-width: 400px; /* Ancho máximo para el formulario */
-    box-sizing: border-box; /* Incluir padding en el ancho total */
+    max-width: 400px;
+    box-sizing: border-box;
 }
 
 h1 {
@@ -59,18 +58,17 @@ label {
 
 input[type="text"],
 input[type="number"],
-select { /* Se añade 'select' para el menú desplegable */
+select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
-    /* Estilo adicional para el select */
-    appearance: none; /* Oculta el estilo nativo en algunos navegadores */
+    appearance: none;
     background-color: #fff;
 }
 
-/* ------------------ BOTONES Y MENSAJES (Mantenidos) ------------------ */
+/* ------------------ BOTONES Y MENSAJES ------------------ */
 
 button {
     width: 100%;
@@ -100,7 +98,7 @@ button:disabled {
     border-radius: 5px;
     text-align: center;
     font-weight: bold;
-    word-wrap: break-word; /* Asegura que el texto largo no rompa el diseño */
+    word-wrap: break-word;
 }
 
 .success {
@@ -124,20 +122,15 @@ button:disabled {
  * ----------------------------------------------------
  */
 
-/* Ajustes específicos para pantallas más pequeñas (Móviles) */
 @media (max-width: 600px) {
     body {
-        /* Reducir el padding en móviles */
-        padding: 10px; 
+        padding: 10px; 
     }
 
     .container {
-        /* Permitir que el contenedor ocupe más espacio horizontalmente */
         width: 95%;
         padding: 20px;
-        /* Remover sombra para una sensación más "nativa" en móvil */
-        box-shadow: none; 
-        /* Asegurarse de que el contenedor pueda encogerse */
+        box-shadow: none; 
         min-width: 0;
     }
     
@@ -146,10 +139,8 @@ button:disabled {
     }
 }
 
-/* Ajustes para tabletas y dispositivos medianos */
 @media (min-width: 601px) and (max-width: 1024px) {
     .container {
         max-width: 500px;
     }
-
 }
