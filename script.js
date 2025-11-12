@@ -1,7 +1,7 @@
 // =========================================================================
 // !!! MUY IMPORTANTE: REEMPLAZA ESTA URL CON LA TUYA DE APPS SCRIPT !!!
 // =========================================================================
-const APPS_SCRIPT_URL = "https://script.google.com/macros/library/d/1WYsKRD0aDft4Yis09X3oLrWYbaeNGjQ7nh_UycRDkHoNgIkjzPtb3AOL/4"; 
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyi_RuBmBqLR8CToqmH3ODWe0gAEpAMmF-CvRgNBhHs3-RFFMpkcp5nhyRJWVjBFQpLYw/exec"; 
 // =========================================================================
 
 // Declaramos las variables/constantes PERO NO las asignamos aún.
@@ -143,4 +143,5 @@ function showMessage(element, type, text) {
     element.classList.add('message', type);
     element.classList.remove('hidden');
 }
+
 
