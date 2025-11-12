@@ -100,7 +100,7 @@ function processRaffleData(availableTickets) {
         });
         
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Reservar y Pagar';
+        submitBtn.textContent = 'Guardar';
         showMessage(messageDiv, 'success', `¡${availableTickets.length} boletos disponibles!`);
     
     } else {
@@ -192,3 +192,4 @@ function showMessage(element, type, text) {
     element.classList.add('message', type);
     element.classList.remove('hidden');
 }
+
