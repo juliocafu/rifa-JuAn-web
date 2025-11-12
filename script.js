@@ -1,7 +1,7 @@
 // =========================================================================
 // !!! MUY IMPORTANTE: REEMPLAZA ESTA URL CON LA TUYA DE APPS SCRIPT !!!
 // =========================================================================
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyFFsVJFIAvalWGaA0FVysL0KXUR4l6tBqNT0h1Ycitq1kQuESW4iuu509ldci1R2bUUg/exec"; 
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxGw8LbnbHfYno5KezeMVDaq2HJr5ASFd3FYfqYMNkWALylZPfPgf84rw02iSUKzAlhUQ/exec"; 
 // =========================================================================
 
 // Declaramos las variables/constantes PERO NO las asignamos aún.
@@ -111,4 +111,5 @@ function showMessage(element, type, text) {
 
 // Nota: La línea document.addEventListener('DOMContentLoaded', loadAvailableTickets); ya no es necesaria al final
 // porque el código inicializador ahora está en el bloque de inicialización grande.
+
 
