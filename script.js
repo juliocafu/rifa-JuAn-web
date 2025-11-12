@@ -23,38 +23,35 @@ function handleRaffleData(data) {
     processRaffleData(data);
 }
 
+// script.js (justo después de handleRaffleData)
+function processRaffleData(data) {
+    // ESTO ES CASI TODO EL CÓDIGO QUE ANTES ESTABA EN EL .then(data => {...}) DE loadAvailableTickets
+    if (data.success && data.result && data.result.available.length > 0) {
+        // ... (Tu lógica de éxito) ...
+        // 3. Éxito: Limpiar y rellenar el menú desplegable
+        // ... (Tu código para llenar el select) ...
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Reservar y Pagar';
+        showMessage(messageDiv, 'success', `¡${data.result.available.length} boletos disponibles!`);
+    } else {
+        // ... (Tu lógica de error/agotado) ...
+        showMessage(messageDiv, 'error', `Error al cargar: ${data.message || 'Agotado'}`);
+        submitBtn.textContent = 'Error de Carga';
+    }
+}
+
+
+// script.js
 function loadAvailableTickets() {
-    // ESTE BLOQUE AHORA USA LAS VARIABLES GLOBALES (NO CONSTANTES)
-    ticketSelect.innerHTML = '<option value="" disabled selected>Cargando disponibilidad...</option>';
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Cargando...';
+    // 1. Resetear interfaz y mostrar estado de carga
+    // ... (Tu código de reset de interfaz) ...
 
-    // ... (El resto de la función es correcto: fetch, then, etc.)
-    // ... (El resto del código de loadAvailableTickets permanece igual)
-    // ...
-
-    // Dentro de loadAvailableTickets():
-    // 2. Hacer la solicitud GET al Apps Script
-    // *** MODIFICACIÓN CRÍTICA AQUÍ ***
-    fetch(APPS_SCRIPT_URL + "?callback=1", { method: 'GET' })
-        .then(response => response.json())
-        .then(data => {
-            // ... (toda tu lógica de llenado de select y habilitación de botón es correcta)
-            if (data.success && data.result && data.result.available.length > 0) {
-                // ... llenar el select ...
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Reservar y Pagar';
-                showMessage(messageDiv, 'success', `¡${data.result.available.length} boletos disponibles!`);
-            } else {
-                // ... manejo de errores/agotado ...
-            }
-        })
-        .catch(error => {
-            // Este catch debería activarse si el Apps Script no responde.
-            console.error('Error de conexión:', error); 
-            showMessage(messageDiv, 'error', 'Error de red. No se pudo conectar con la base de datos.');
-            submitBtn.textContent = 'Error de Carga';
-        });
+    const url = APPS_SCRIPT_URL + '?callback=handleRaffleData';
+    
+    // **ESTE ES EL NUEVO CÓDIGO DE CARGA**
+    const script = document.createElement('script');
+    script.src = url;
+    document.head.appendChild(script);
 }
 
 
@@ -122,6 +119,7 @@ function showMessage(element, type, text) {
 
 // Nota: La línea document.addEventListener('DOMContentLoaded', loadAvailableTickets); ya no es necesaria al final
 // porque el código inicializador ahora está en el bloque de inicialización grande.
+
 
 
 
