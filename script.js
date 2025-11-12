@@ -22,8 +22,10 @@ function loadAvailableTickets() {
     // ... (El resto del código de loadAvailableTickets permanece igual)
     // ...
 
-    // 2. Hacer la solicitud GET al Apps Script
-    fetch(APPS_SCRIPT_URL, { method: 'GET' })
+    // Dentro de loadAvailableTickets():
+    // 2. Hacer la solicitud GET al Apps Script
+    // *** MODIFICACIÓN CRÍTICA AQUÍ ***
+    fetch(APPS_SCRIPT_URL + "?callback=1", { method: 'GET' })
         .then(response => response.json())
         .then(data => {
             // ... (toda tu lógica de llenado de select y habilitación de botón es correcta)
@@ -109,3 +111,4 @@ function showMessage(element, type, text) {
 
 // Nota: La línea document.addEventListener('DOMContentLoaded', loadAvailableTickets); ya no es necesaria al final
 // porque el código inicializador ahora está en el bloque de inicialización grande.
+
