@@ -12,6 +12,17 @@ let form, ticketSelect, submitBtn, messageDiv;
  * 1. FUNCIÓN DE CARGA: Obtiene los boletos disponibles del Apps Script (GET).
  * Esta función NO necesita cambios internos.
  */
+// script.js (al inicio, antes de loadAvailableTickets)
+
+/**
+ * Función global que recibe el JSONP de Google Apps Script.
+ */
+function handleRaffleData(data) {
+    // Si la función se ejecuta, significa que la comunicación funcionó.
+    // Llama a la lógica principal de tu app.
+    processRaffleData(data);
+}
+
 function loadAvailableTickets() {
     // ESTE BLOQUE AHORA USA LAS VARIABLES GLOBALES (NO CONSTANTES)
     ticketSelect.innerHTML = '<option value="" disabled selected>Cargando disponibilidad...</option>';
@@ -111,6 +122,7 @@ function showMessage(element, type, text) {
 
 // Nota: La línea document.addEventListener('DOMContentLoaded', loadAvailableTickets); ya no es necesaria al final
 // porque el código inicializador ahora está en el bloque de inicialización grande.
+
 
 
 
